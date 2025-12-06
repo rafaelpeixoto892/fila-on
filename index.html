@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolada Pix</title>
+
+    <!-- Pixel UTMify -->
+    <script>
+      window.pixelId = "69337685c99d023aa89551fe";
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      document.head.appendChild(a);
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Animação para o selo */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .selo-oficial { animation: bounce 1.5s infinite; }
+
+        /* Destaque da opção selecionada */
+        .opcao.selecionada > div {
+            background-color: #e0f2fe;
+            border-color: #2563eb;
+        }
+
+        /* Animação CTA */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        #btn-concorrer { animation: pulse 1.8s infinite; }
+    </style>
+</head>
+
+<body class="bg-gray-50 font-inter">
+
+    <!-- Container principal -->
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden relative">
+
+        <!-- Header com logo -->
+        <div class="p-4 flex justify-center">
+            <img src="https://i.ibb.co/tM9Sw8Gb/url-img-cliente-default-1750874658547.png" alt="Logo Bolada Pix" class="h-16">
+        </div>
+
+        <!-- Banner com selo -->
+        <div class="relative">
+            <img src="https://fpp-assets.playservicos.com.br/bpp/BOLADAPIX/imagem/Bolada-Pix---Ram-Rampage-1090x545-AFILIADO-2-1762798649602.webp?width=656&height=328" alt="Banner do sorteio" class="w-full">
+            <div class="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg selo-oficial">
+                SITE OFICIAL
+            </div>
+        </div>
+
+        <!-- Info sorteio -->
+        <div class="px-4 py-3 flex justify-between items-center text-sm text-gray-600">
+            <p id="info-sorteio">🎉 Sorteio: <b></b></p>
+            <p>Por apenas <span class="bg-black text-white px-2 py-1 rounded">R$ 0,99</span></p>
+        </div>
+
+        <!-- Grade de botões -->
+        <section class="m-0 min-h-[218px] flex flex-col gap-[1px] font-inter">
+            <div class="m-0 px-0 pt-4">
+                <div class="mb-[10px] flex justify-between items-center">
+                    <p class="font-bold text-lg font-inter select-none px-4">Escolha a quantidade</p>
+                </div>
+            </div>
+
+            <!-- Grade -->
+            <div id="grade" class="grid mb-6 px-5 grid-cols-3 gap-3">
+                <div class="rounded-[10px] cursor-pointer opcao" role="button" tabindex="0"
+                    data-link="https://pay.saque-hoje.fun/BNjzgPlNnNwgM78" data-quantidade="20">
+                    <div class="min-w-full items-center text-center p-2 relative rounded-[10px] border-[2px] flex flex-col bg-white border-gray-300">
+                        <p class="font-medium text-xl select-none">+20</p>
+                    </div>
+                </div>
+
+                <div class="rounded-[10px] cursor-pointer opcao" role="button" tabindex="0"
+                    data-link="https://pay.saque-hoje.fun/ODAK3Ll19123E6V" data-quantidade="30">
+                    <div class="min-w-full items-center text-center p-2 relative rounded-[10px] border-[2px] flex flex-col bg-white border-gray-300">
+                        <p class="font-medium text-xl select-none">+30</p>
+                    </div>
+                </div>
+
+                <div class="rounded-[10px] cursor-pointer opcao" role="button" tabindex="0"
+                    data-link="https://pay.saque-hoje.fun/DYp0ZxVA5AjgmvX" data-quantidade="40">
+                    <div class="min-w-full items-center text-center p-2 relative rounded-[10px] border-[2px] flex flex-col bg-white border-gray-300">
+                        <p class="font-medium text-xl select-none">+40</p>
+                        <div class="badgeMaisVendido w-max px-2 py-1 flex items-center justify-center rounded-[36px] absolute top-[-16px] left-0 right-0 mx-auto bg-yellow-300 text-xs font-bold">
+                            ⭐ Mais popular
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-[10px] cursor-pointer opcao" role="button" tabindex="0"
+                    data-link="https://pay.saque-hoje.fun/nQ7kZ7p6z6NG0eJ" data-quantidade="70">
+                    <div class="min-w-full items-center text-center p-2 relative rounded-[10px] border-[2px] flex flex-col bg-white border-gray-300">
+                        <p class="font-medium text-xl select-none">+70</p>
+                    </div>
+                </div>
+
+                <div class="rounded-[10px] cursor-pointer opcao" role="button" tabindex="0"
+                    data-link="https://pay.saque-hoje.fun/RmA83Eaq5q83PVp" data-quantidade="100">
+                    <div class="min-w-full items-center text-center p-2 relative rounded-[10px] border-[2px] flex flex-col bg-white border-gray-300">
+                        <p class="font-medium text-xl select-none">+100</p>
+                    </div>
+                </div>
+
+                <div class="rounded-[10px] cursor-pointer opcao" role="button" tabindex="0"
+                    data-link="https://pay.saque-hoje.fun/2wq7Gr7DxDMgBAN" data-quantidade="200">
+                    <div class="min-w-full items-center text-center p-2 relative rounded-[10px] border-[2px] flex flex-col bg-white border-gray-300">
+                        <p class="font-medium text-xl select-none">+200</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controle + e - -->
+            <div class="my-4 px-5">
+                <div class="flex justify-center flex-col">
+                    <div class="flex gap-5 w-full">
+                        <button id="btn-menos" class="p-4 w-[70px] flex justify-center items-center rounded-lg border-[2px] border-neutral-200">-</button>
+                        <input id="campo" class="w-full text-xl font-semibold text-center px-4 py-2 bg-white rounded-lg border-[2px] border-gray-300" type="text" readonly>
+                        <button id="btn-mais" class="p-4 w-[70px] flex justify-center items-center bg-white rounded-lg border-[2px] border-neutral-200">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão Concorrer -->
+            <div class="px-5 pb-6">
+                <a id="btn-concorrer" href="#" class="block w-full text-center py-3 rounded-lg bg-blue-600 text-white font-bold">Concorrer</a>
+            </div>
+        </section>
+
+        <!-- Rodapé -->
+        <div class="px-4 py-4 text-xs text-gray-500 text-center">
+            <img src="https://i.ibb.co/vvQnvhy7/url-img-capitalizadora-default-1749497817761.png" alt="Autorização Lotep" class="h-16 mx-auto mb-5">
+            <p>
+                Este bilhete de loteria está autorizado com base na portaria AUTORIZAÇÃO LOTEP LTP-PRC-2025/01338 - Bolada Pix.
+                Antes de contratar, consulte o Regulamento do produto.
+                É proibida a venda para menores de 18 anos.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // -------- DATA E HORA DO SORTEIO --------
+        const agora = new Date();
+        agora.setHours(agora.getHours() + 3); 
+        const opcoesData = { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" };
+        const dataFormatada = agora.toLocaleString("pt-BR", opcoesData);
+        document.querySelector("#info-sorteio b").textContent = dataFormatada;
+
+        // -------- BOTÕES DE OPÇÕES --------
+        const botoes = document.querySelectorAll(".opcao");
+        const campo = document.getElementById("campo");
+        const btnConcorrer = document.getElementById("btn-concorrer");
+        let indexSelecionado = 0;
+
+        function atualizarSelecao(i) {
+            botoes.forEach(btn => btn.classList.remove("selecionada"));
+            const selecionado = botoes[i];
+            selecionado.classList.add("selecionada");
+            campo.value = "+" + selecionado.dataset.quantidade;
+            btnConcorrer.href = selecionado.dataset.link;
+            indexSelecionado = i;
+        }
+
+        botoes.forEach((btn, i) => {
+            btn.addEventListener("click", () => atualizarSelecao(i));
+            btn.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    atualizarSelecao(i);
+                }
+            });
+        });
+
+        document.getElementById("btn-mais").addEventListener("click", () => {
+            let novoIndex = (indexSelecionado + 1) % botoes.length;
+            atualizarSelecao(novoIndex);
+        });
+
+        document.getElementById("btn-menos").addEventListener("click", () => {
+            let novoIndex = (indexSelecionado - 1 + botoes.length) % botoes.length;
+            atualizarSelecao(novoIndex);
+        });
+
+        // Inicia na primeira opção
+        atualizarSelecao(0);
+    </script>
+</body>
+
+</html>

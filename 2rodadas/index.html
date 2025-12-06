@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Parabéns!</title>
+    <style>
+        :root {
+            --azul-claro: #3ba9ff;
+            --azul-escuro: #0057b8;
+            --texto: #04345c;
+            --branco: #ffffff;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(160deg, var(--azul-claro), var(--azul-escuro));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--texto);
+            overflow: hidden;
+        }
+
+        /* Barra superior */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+        }
+
+        .topbar img {
+            height: 40px;
+        }
+
+        .container {
+            background: var(--branco);
+            padding: 40px 28px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            text-align: center;
+            max-width: 380px;
+            width: 90%;
+            position: relative;
+            animation: popIn .5s ease;
+            margin-top: 70px;
+            /* para não colar na barra */
+        }
+
+        .container h1 {
+            margin: 0 0 12px;
+            font-size: 26px;
+            color: var(--azul-escuro);
+        }
+
+        .container p {
+            font-size: 16px;
+            margin: 0 0 20px;
+            color: #333;
+        }
+
+        .bonus {
+            display: inline-block;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: var(--branco);
+            font-size: 22px;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 22px;
+            background: var(--azul-escuro);
+            color: var(--branco);
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background .25s;
+        }
+
+        .btn:hover {
+            background: #004298;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Confete canvas */
+        canvas#confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <img src="https://i.postimg.cc/mD55j0sr/url-img-cliente-default-1750874658547.png" alt="Logo">
+    </div>
+
+    <canvas id="confetti"></canvas>
+
+    <div class="container">
+        <h1>🎉 Parabéns!</h1>
+        <div class="bonus">+2 Rodadas Grátis</div>
+        <p>Você ganhou duas chances extras na Roleta Premiada.<br>Boa sorte e aproveite!</p>
+        <button class="btn" id="continuarBtn">Continuar</button>
+    </div>
+
+    <script>
+        // Confete simples
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confetes = [];
+    for (let i = 0; i < 150; i++) {
+      confetes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 6 + 4,
+        d: Math.random() * 40 + 10,
+        color: `hsl(${Math.random() * 360},100%,50%)`,
+        tilt: Math.random() * 10 - 10
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetes.forEach(c => {
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2, false);
+        ctx.fillStyle = c.color;
+        ctx.fill();
+      });
+      update();
+    }
+
+    function update() {
+      confetes.forEach(c => {
+        c.y += Math.cos(c.d) + 2 + c.r / 2;
+        c.x += Math.sin(c.d);
+        if (c.y > canvas.height) {
+          c.x = Math.random() * canvas.width;
+          c.y = -10;
+        }
+      });
+    }
+
+    let confettiActive = true;
+    function animateConfetti() {
+      if (!confettiActive) return;
+      draw();
+      requestAnimationFrame(animateConfetti);
+    }
+
+    animateConfetti();
+
+    // Confete para em 3 segundos
+    setTimeout(() => {
+      confettiActive = false;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }, 3000);
+
+    // Botão "Continuar" redireciona
+    document.getElementById("continuarBtn").addEventListener("click", () => {
+      window.location.href = "/up2/"; // ajuste o caminho para sua roleta
+    });
+    </script>
+</body>
+
+</html>
